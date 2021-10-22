@@ -5,6 +5,7 @@ from blogpost.db import db
 from blogpost.login_manager import login_manager
 from blogpost.config import config
 from blogpost.core.views import core
+from blogpost.users.views import users
 from blogpost.error_pages.handlers import error_pages
 
 app = Flask(__name__)
@@ -24,4 +25,5 @@ login_manager.login_view = 'users.login'
 
 
 app.register_blueprint(core)
+app.register_blueprint(users)
 app.register_blueprint(error_pages)
