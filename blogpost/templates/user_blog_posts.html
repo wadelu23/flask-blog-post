@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="text-center">
+    <h1>Welcome to the page for {{ user.username }}</h1>
+    <img src="{{url_for('static',filename='profile_pics/'+user.profile_image)}}">
+</div>
+
+<div class="row g-4 py-5 row-cols-2">
+    {% for post in blog_posts.items %}
+        <div class="feature col">
+            <h5 class="text-start text-break"><a href="{{url_for('blog_posts.blog_post',blog_post_id=post.id)}}">{{post.title}}</a></h5>
+            <div class="text-start">
+                <p>Published :{{ post.date.strftime('%Y-%m-%d') }}</p>
+            </div>
+            <a href="{{url_for('blog_posts.blog_post',blog_post_id=post.id)}}" class="btn btn-outline-primary btn-sm">Read More</a>
+        </div>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if blog_posts.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('users.user_posts', username=user.username, page=blog_posts.prev_num) }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {%- for page in blog_posts.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+            {% if page %}
+              {% if page != blog_posts.page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('users.user_posts', username=user.username, page=page) }}">{{ page }}</a></li>
+              {% else %}
+                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+              {% endif %}
+            {% else %}
+              <span class=ellipsis>…</span>
+            {% endif %}
+        {%- endfor %}
+
+        {% if blog_posts.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('users.user_posts', username=user.username, page=blog_posts.next_num) }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+</div>
+
+{% endblock  %}

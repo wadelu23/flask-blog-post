@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block content %}
+<main class="w-100 p-2">
+<h3 class="text-center">{{ title }}</h3>
+<form method="POST">
+    {{ form.csrf_token }}
+    {{ render_field(form.title) }}
+    {{ form.text }}
+    {{ simplemde.load }}
+    {{ form.submit(class="w-30 mt-1 btn btn-lg btn-primary") }}
+</form>
+</main>
+{% endblock %}
